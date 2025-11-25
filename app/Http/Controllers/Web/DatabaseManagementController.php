@@ -100,46 +100,21 @@ class DatabaseManagementController extends Controller
         }
     }
 
-    public function phpmyadmin(Site $site): RedirectResponse
+    public function phpmyadmin(Site $site): View|RedirectResponse
     {
         if (!$site->database) {
             abort(404, 'No database associated with this site.');
         }
 
-        $phpmyadminUrl = config('wphcp.phpmyadmin_url', 'http://localhost/phpmyadmin');
         $database = $site->database;
+        $phpmyadminUrl = config('wphcp.phpmyadmin_url', 'http://localhost/phpmyadmin');
         
-        // Generate phpMyAdmin URL with auto-login parameters
-        // Note: This requires phpMyAdmin to be configured to accept these parameters
-        $params = http_build_query([
-            'server' => $database->host . ':' . $database->port,
-            'username' => $database->username,
-            'db' => $database->name,
-        ]);
-
-        // For security, we'll redirect to phpMyAdmin with a token-based approach
-        // Store credentials in session temporarily for secure access
-        session([
-            'phpmyadmin_db_host' => $database->host,
-            'phpmyadmin_db_port' => $database->port,
-            'phpmyadmin_db_name' => $database->name,
-            'phpmyadmin_db_user' => $database->username,
-            'phpmyadmin_db_pass' => $database->decrypted_password,
-            'phpmyadmin_site_id' => $site->id,
-        ]);
-
-        return redirect()->route('sites.database.phpmyadmin.proxy', $site);
-    }
-
-    public function phpmyadminProxy(Site $site): View
-    {
-        if (!$site->database) {
-            abort(404, 'No database associated with this site.');
+        // If direct redirect is enabled, redirect to phpMyAdmin
+        if (config('wphcp.phpmyadmin_direct_redirect', false)) {
+            return redirect($phpmyadminUrl);
         }
 
-        $database = $site->database;
-        $phpmyadminUrl = config('wphcp.phpmyadmin_url', 'http://localhost/phpmyadmin');
-
+        // Otherwise show phpMyAdmin access page with credentials
         return view('sites.database-phpmyadmin', [
             'site' => $site,
             'database' => $database,

@@ -52,7 +52,15 @@
 
             <!-- Database Info -->
             <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6 border border-gray-200 dark:border-gray-700">
-                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Database Information</h3>
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Database Information</h3>
+                    <a href="{{ route('sites.database.phpmyadmin', $site) }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 font-medium text-sm transition-colors flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4" />
+                        </svg>
+                        phpMyAdmin
+                    </a>
+                </div>
                 <dl class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div>
                         <dt class="text-sm font-medium text-gray-500 dark:text-gray-400">Database Name</dt>

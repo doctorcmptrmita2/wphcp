@@ -9,6 +9,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Public pages
+Route::get('/about', [\App\Http\Controllers\Web\PageController::class, 'about'])->name('pages.about');
+Route::get('/who-we-are', [\App\Http\Controllers\Web\PageController::class, 'whoWeAre'])->name('pages.who-we-are');
+Route::get('/contact', [\App\Http\Controllers\Web\PageController::class, 'contact'])->name('pages.contact');
+Route::get('/roadmap', [\App\Http\Controllers\Web\PageController::class, 'roadmap'])->name('pages.roadmap');
+Route::get('/privacy', [\App\Http\Controllers\Web\PageController::class, 'privacy'])->name('pages.privacy');
+
 Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -35,7 +42,6 @@ Route::middleware('auth')->group(function () {
     Route::get('sites/{site}/database/tables', [\App\Http\Controllers\Web\DatabaseManagementController::class, 'showTables'])->name('sites.database.tables');
     Route::get('sites/{site}/database/table/{tableName}', [\App\Http\Controllers\Web\DatabaseManagementController::class, 'showTableStructure'])->name('sites.database.table');
     Route::get('sites/{site}/database/phpmyadmin', [\App\Http\Controllers\Web\DatabaseManagementController::class, 'phpmyadmin'])->name('sites.database.phpmyadmin');
-    Route::get('sites/{site}/database/phpmyadmin/proxy', [\App\Http\Controllers\Web\DatabaseManagementController::class, 'phpmyadminProxy'])->name('sites.database.phpmyadmin.proxy');
     
     // Site Settings routes
     Route::get('sites/{site}/settings', [\App\Http\Controllers\Web\SiteSettingsController::class, 'index'])->name('sites.settings');

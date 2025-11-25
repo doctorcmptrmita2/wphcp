@@ -16,5 +16,8 @@ return [
     'letsencrypt_email' => env('WPHCP_LETSENCRYPT_EMAIL', 'admin@example.com'),
     'default_server_ip' => env('WPHCP_DEFAULT_SERVER_IP', '127.0.0.1'),
     'phpmyadmin_url' => env('WPHCP_PHPMYADMIN_URL', 'http://localhost/phpmyadmin'),
+    'phpmyadmin_direct_redirect' => env('WPHCP_PHPMYADMIN_DIRECT_REDIRECT', false),
+    'adminer_enabled' => env('WPHCP_ADMINER_ENABLED', false),
+    'adminer_path' => env('WPHCP_ADMINER_PATH', public_path('adminer.php')),
 ];
 

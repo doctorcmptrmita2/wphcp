@@ -3,6 +3,26 @@
     <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="WPHCP - Modern WordPress Hosting Control Panel. Manage multiple WordPress sites, databases, SSL certificates, and backups from one simple interface.">
+    <meta name="keywords" content="WordPress, hosting, control panel, site management, SSL, database, backup, Laravel">
+    <meta name="author" content="WPHCP">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/') }}">
+    <meta property="og:title" content="WPHCP - WordPress Hosting Control Panel">
+    <meta property="og:description" content="Manage your WordPress sites with ease. Create, backup, and manage SSL certificates all from one simple interface.">
+    <meta property="og:image" content="{{ url('/images/og-image.jpg') }}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ url('/') }}">
+    <meta property="twitter:title" content="WPHCP - WordPress Hosting Control Panel">
+    <meta property="twitter:description" content="Manage your WordPress sites with ease. Create, backup, and manage SSL certificates all from one simple interface.">
+    <meta property="twitter:image" content="{{ url('/images/og-image.jpg') }}">
+    
+    <link rel="canonical" href="{{ url('/') }}">
     <title>WPHCP - WordPress Hosting Control Panel</title>
     <script src="https://cdn.tailwindcss.com"></script>
     </head>
@@ -37,23 +57,23 @@
         <!-- Hero Section -->
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
             <div class="text-center">
-                <h1 class="text-5xl font-extrabold text-gray-900 sm:text-6xl">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900">
                     WordPress Hosting
                     <span class="text-indigo-600">Control Panel</span>
                 </h1>
-                <p class="mt-6 text-xl text-gray-600 max-w-3xl mx-auto">
+                <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto px-4">
                     Manage your WordPress sites with ease. Create, backup, and manage SSL certificates all from one simple interface.
                 </p>
-                <div class="mt-10 flex justify-center space-x-4">
+                <div class="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
                     @auth
-                        <a href="{{ route('dashboard') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 shadow-lg">
+                        <a href="{{ route('dashboard') }}" class="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 shadow-lg text-center">
                             Go to Dashboard
                         </a>
                     @else
-                        <a href="{{ route('register') }}" class="bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 shadow-lg">
+                        <a href="{{ route('register') }}" class="w-full sm:w-auto bg-indigo-600 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-indigo-700 shadow-lg text-center">
                             Get Started Free
                         </a>
-                        <a href="{{ route('login') }}" class="bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-50 shadow-lg border-2 border-indigo-600">
+                        <a href="{{ route('login') }}" class="w-full sm:w-auto bg-white text-indigo-600 px-8 py-3 rounded-lg text-lg font-semibold hover:bg-gray-50 shadow-lg border-2 border-indigo-600 text-center">
                             Sign In
                         </a>
                     @endauth
@@ -65,8 +85,8 @@
         <div class="bg-white py-20">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-extrabold text-gray-900">Powerful Features</h2>
-                    <p class="mt-4 text-lg text-gray-600">Everything you need to manage WordPress sites</p>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900">Powerful Features</h2>
+                    <p class="mt-4 text-base sm:text-lg text-gray-600">Everything you need to manage WordPress sites</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <div class="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-xl shadow-lg">
@@ -121,10 +141,6 @@
         </div>
     </main>
 
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <p class="text-gray-400">&copy; {{ date('Y') }} WPHCP. All rights reserved.</p>
-        </div>
-    </footer>
+    @include('partials.footer')
     </body>
 </html>
