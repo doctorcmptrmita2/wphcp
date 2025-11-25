@@ -1,8 +1,10 @@
-@props(['class' => 'h-10 w-auto', 'showText' => true, 'size' => 'default'])
+@props(['class' => 'h-10 w-auto', 'showText' => true, 'size' => 'default', 'textColor' => 'default'])
 
 @php
     $textSize = $size === 'large' ? 'text-2xl' : 'text-xl';
     $subtextSize = $size === 'large' ? 'text-sm' : 'text-xs';
+    $textColorClass = $textColor === 'white' ? 'text-white' : 'text-gray-900 dark:text-white';
+    $subtextColorClass = $textColor === 'white' ? 'text-gray-300' : 'text-gray-500 dark:text-gray-400';
 @endphp
 
 <div {{ $attributes->merge(['class' => 'flex items-center gap-3']) }}>
@@ -66,8 +68,8 @@
     @if($showText)
         <!-- Text -->
         <div class="flex flex-col">
-            <span class="{{ $textSize }} font-bold text-gray-900 dark:text-white leading-tight tracking-tight">WPHCP</span>
-            <span class="{{ $subtextSize }} text-gray-500 dark:text-gray-400 leading-tight hidden sm:block">WordPress Hosting</span>
+            <span class="{{ $textSize }} font-bold {{ $textColorClass }} leading-tight tracking-tight">WPHCP</span>
+            <span class="{{ $subtextSize }} {{ $subtextColorClass }} leading-tight hidden sm:block">WordPress Hosting</span>
         </div>
     @endif
 </div>

@@ -3,7 +3,7 @@
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
             <div>
                 <a href="/" class="flex items-center mb-4 hover:opacity-80 transition-opacity">
-                    <x-wphcp-logo class="h-8" :showText="true" />
+                    <x-wphcp-logo class="h-8" :showText="true" textColor="white" />
                 </a>
                 <p class="text-gray-400 text-sm">
                     Modern WordPress hosting control panel for managing your sites with ease.
