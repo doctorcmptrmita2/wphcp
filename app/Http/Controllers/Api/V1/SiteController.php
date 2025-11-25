@@ -10,6 +10,7 @@ use App\Jobs\Wphcp\CreateWordpressSiteJob;
 use App\Models\Site;
 use App\Services\Wphcp\SiteProvisioningService;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
@@ -21,40 +22,85 @@ class SiteController extends Controller
     ) {
     }
 
-    public function index(): JsonResponse
+    public function index(): JsonResponse|\Illuminate\Http\RedirectResponse
     {
-        $sites = Site::with(['database', 'sslCertificate'])
-            ->select('id', 'domain', 'status', 'php_version', 'last_backup_at', 'created_at')
-            ->get();
+        // If request is from browser (Accept: text/html), redirect to web interface
+        if (request()->wantsJson() === false && request()->acceptsHtml()) {
+            return redirect()->route('sites.index');
+        }
 
-        return response()->json($sites);
-    }
-
-    public function show(Site $site): JsonResponse
-    {
-        $site->load(['database', 'sslCertificate']);
+        $sites = Site::with(['database', 'sslCertificate', 'dnsRecords'])
+            ->orderBy('created_at', 'desc')
+            ->get()
+            ->map(function ($site) {
+                return [
+                    'id' => $site->id,
+                    'domain' => $site->domain,
+                    'root_path' => $site->root_path,
+                    'php_version' => $site->php_version,
+                    'status' => $site->status,
+                    'maintenance_mode' => $site->maintenance_mode,
+                    'last_backup_at' => $site->last_backup_at?->toDateTimeString(),
+                    'database' => $site->database ? [
+                        'id' => $site->database->id,
+                        'name' => $site->database->name,
+                        'username' => $site->database->username,
+                        'host' => $site->database->host,
+                        'port' => $site->database->port,
+                        'size_mb' => $site->database->size_mb,
+                    ] : null,
+                    'ssl_certificate' => $site->sslCertificate ? [
+                        'status' => $site->sslCertificate->status,
+                        'expires_at' => $site->sslCertificate->expires_at?->toDateTimeString(),
+                    ] : null,
+                    'dns_records_count' => $site->dnsRecords->count(),
+                    'created_at' => $site->created_at->toDateTimeString(),
+                    'updated_at' => $site->updated_at->toDateTimeString(),
+                ];
+            });
 
         return response()->json([
-            'id' => $site->id,
-            'domain' => $site->domain,
-            'root_path' => $site->root_path,
-            'php_version' => $site->php_version,
-            'status' => $site->status,
-            'maintenance_mode' => $site->maintenance_mode,
-            'last_backup_at' => $site->last_backup_at,
-            'database' => $site->database ? [
-                'id' => $site->database->id,
-                'name' => $site->database->name,
-                'username' => $site->database->username,
-                'host' => $site->database->host,
-                'port' => $site->database->port,
-            ] : null,
-            'ssl_certificate' => $site->sslCertificate ? [
-                'status' => $site->sslCertificate->status,
-                'expires_at' => $site->sslCertificate->expires_at,
-            ] : null,
-            'created_at' => $site->created_at,
-            'updated_at' => $site->updated_at,
+            'success' => true,
+            'data' => $sites,
+            'count' => $sites->count(),
+        ]);
+    }
+
+    public function show(Site $site): JsonResponse|\Illuminate\Http\RedirectResponse
+    {
+        // If request is from browser (Accept: text/html), redirect to web interface
+        if (request()->wantsJson() === false && request()->acceptsHtml()) {
+            return redirect()->route('sites.show', $site);
+        }
+
+        $site->load(['database', 'sslCertificate', 'dnsRecords']);
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'id' => $site->id,
+                'domain' => $site->domain,
+                'root_path' => $site->root_path,
+                'php_version' => $site->php_version,
+                'status' => $site->status,
+                'maintenance_mode' => $site->maintenance_mode,
+                'last_backup_at' => $site->last_backup_at?->toDateTimeString(),
+                'database' => $site->database ? [
+                    'id' => $site->database->id,
+                    'name' => $site->database->name,
+                    'username' => $site->database->username,
+                    'host' => $site->database->host,
+                    'port' => $site->database->port,
+                    'size_mb' => $site->database->size_mb,
+                ] : null,
+                'ssl_certificate' => $site->sslCertificate ? [
+                    'status' => $site->sslCertificate->status,
+                    'expires_at' => $site->sslCertificate->expires_at?->toDateTimeString(),
+                ] : null,
+                'dns_records_count' => $site->dnsRecords->count(),
+                'created_at' => $site->created_at->toDateTimeString(),
+                'updated_at' => $site->updated_at->toDateTimeString(),
+            ],
         ]);
     }
 

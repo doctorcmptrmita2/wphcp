@@ -7,6 +7,7 @@ namespace App\Jobs\Wphcp;
 use App\Data\Wphcp\SiteProvisioningData;
 use App\Models\Site;
 use App\Services\Wphcp\DatabaseService;
+use App\Services\Wphcp\DnsService;
 use App\Services\Wphcp\SiteProvisioningService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,7 +32,8 @@ class CreateWordpressSiteJob implements ShouldQueue
 
     public function handle(
         DatabaseService $databaseService,
-        SiteProvisioningService $provisioningService
+        SiteProvisioningService $provisioningService,
+        DnsService $dnsService
     ): void {
         Log::info('Starting WordPress site creation job', [
             'domain' => $this->domain,
@@ -66,6 +68,9 @@ class CreateWordpressSiteJob implements ShouldQueue
             // Update site with database association
             $site->refresh();
             $site->update(['db_id' => $database->id]);
+
+            // Create default DNS records
+            $dnsService->createDefaultRecords($site);
 
             Log::info('WordPress site creation completed successfully', [
                 'site_id' => $site->id,

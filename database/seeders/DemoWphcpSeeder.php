@@ -16,54 +16,64 @@ class DemoWphcpSeeder extends Seeder
     public function run(): void
     {
         // Create demo databases
-        $database1 = Database::create([
-            'name' => 'wp_example_com',
-            'username' => 'wp_example_com',
-            'password_encrypted' => Crypt::encryptString('demo_password_123'),
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'status' => 'active',
-            'size_mb' => 15.50,
-        ]);
+        $database1 = Database::firstOrCreate(
+            ['name' => 'wp_example_com'],
+            [
+                'username' => 'wp_example_com',
+                'password_encrypted' => Crypt::encryptString('demo_password_123'),
+                'host' => '127.0.0.1',
+                'port' => 3306,
+                'status' => 'active',
+                'size_mb' => 15.50,
+            ]
+        );
 
-        $database2 = Database::create([
-            'name' => 'wp_demo_site',
-            'username' => 'wp_demo_site',
-            'password_encrypted' => Crypt::encryptString('demo_password_456'),
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'status' => 'active',
-            'size_mb' => 8.25,
-        ]);
+        $database2 = Database::firstOrCreate(
+            ['name' => 'wp_demo_site'],
+            [
+                'username' => 'wp_demo_site',
+                'password_encrypted' => Crypt::encryptString('demo_password_456'),
+                'host' => '127.0.0.1',
+                'port' => 3306,
+                'status' => 'active',
+                'size_mb' => 8.25,
+            ]
+        );
 
         // Create demo sites
-        $site1 = Site::create([
-            'domain' => 'example.com',
-            'root_path' => '/var/www/example.com',
-            'php_version' => '8.2',
-            'status' => 'active',
-            'maintenance_mode' => false,
-            'db_id' => $database1->id,
-            'last_backup_at' => now()->subDays(2),
-        ]);
+        $site1 = Site::firstOrCreate(
+            ['domain' => 'example.com'],
+            [
+                'root_path' => '/var/www/example.com',
+                'php_version' => '8.2',
+                'status' => 'active',
+                'maintenance_mode' => false,
+                'db_id' => $database1->id,
+                'last_backup_at' => now()->subDays(2),
+            ]
+        );
 
-        $site2 = Site::create([
-            'domain' => 'demo-site.com',
-            'root_path' => '/var/www/demo-site.com',
-            'php_version' => '8.1',
-            'status' => 'active',
-            'maintenance_mode' => false,
-            'db_id' => $database2->id,
-            'last_backup_at' => now()->subDays(5),
-        ]);
+        $site2 = Site::firstOrCreate(
+            ['domain' => 'demo-site.com'],
+            [
+                'root_path' => '/var/www/demo-site.com',
+                'php_version' => '8.1',
+                'status' => 'active',
+                'maintenance_mode' => false,
+                'db_id' => $database2->id,
+                'last_backup_at' => now()->subDays(5),
+            ]
+        );
 
-        $site3 = Site::create([
-            'domain' => 'test-site.com',
-            'root_path' => '/var/www/test-site.com',
-            'php_version' => '8.2',
-            'status' => 'creating',
-            'maintenance_mode' => false,
-        ]);
+        $site3 = Site::firstOrCreate(
+            ['domain' => 'test-site.com'],
+            [
+                'root_path' => '/var/www/test-site.com',
+                'php_version' => '8.2',
+                'status' => 'creating',
+                'maintenance_mode' => false,
+            ]
+        );
 
         // Create demo backups
         Backup::create([

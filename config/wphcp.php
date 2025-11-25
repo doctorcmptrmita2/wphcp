@@ -14,5 +14,7 @@ return [
     'certbot_bin' => env('WPHCP_CERTBOT_BIN', '/usr/bin/certbot'),
     'default_php_version' => env('WPHCP_DEFAULT_PHP_VERSION', '8.2'),
     'letsencrypt_email' => env('WPHCP_LETSENCRYPT_EMAIL', 'admin@example.com'),
+    'default_server_ip' => env('WPHCP_DEFAULT_SERVER_IP', '127.0.0.1'),
+    'phpmyadmin_url' => env('WPHCP_PHPMYADMIN_URL', 'http://localhost/phpmyadmin'),
 ];
 

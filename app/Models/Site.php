@@ -40,4 +40,9 @@ class Site extends Model
     {
         return $this->hasOne(SslCertificate::class);
     }
+
+    public function dnsRecords(): HasMany
+    {
+        return $this->hasMany(DnsRecord::class);
+    }
 }

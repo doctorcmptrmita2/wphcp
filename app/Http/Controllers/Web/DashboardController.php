@@ -29,7 +29,6 @@ class DashboardController extends Controller
             ->where('expires_at', '<=', now()->addDays(30))
             ->orderBy('expires_at', 'asc')
             ->limit(5)
-            ->with('site')
             ->get();
 
         return view('dashboard', [
