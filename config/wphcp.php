@@ -19,5 +19,11 @@ return [
     'phpmyadmin_direct_redirect' => env('WPHCP_PHPMYADMIN_DIRECT_REDIRECT', false),
     'adminer_enabled' => env('WPHCP_ADMINER_ENABLED', false),
     'adminer_path' => env('WPHCP_ADMINER_PATH', public_path('adminer.php')),
+    
+    'easypanel' => [
+        'api_url' => env('EASYPANEL_API_URL', 'http://localhost:3000'),
+        'api_token' => env('EASYPANEL_API_TOKEN', ''),
+        'enabled' => env('EASYPANEL_ENABLED', false),
+    ],
 ];
 

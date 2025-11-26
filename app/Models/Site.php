@@ -19,11 +19,25 @@ class Site extends Model
         'maintenance_mode',
         'db_id',
         'last_backup_at',
+        'easypanel_enabled',
+        'easypanel_project_name',
+        'easypanel_service_name',
+        'easypanel_deploy_method',
+        'easypanel_repository_url',
+        'easypanel_branch',
+        'easypanel_docker_image',
+        'easypanel_port',
+        'easypanel_env_vars',
+        'easypanel_cpu_limit',
+        'easypanel_memory_limit',
     ];
 
     protected $casts = [
         'maintenance_mode' => 'boolean',
         'last_backup_at' => 'datetime',
+        'easypanel_enabled' => 'boolean',
+        'easypanel_env_vars' => 'array',
+        'easypanel_port' => 'integer',
     ];
 
     public function database(): BelongsTo
