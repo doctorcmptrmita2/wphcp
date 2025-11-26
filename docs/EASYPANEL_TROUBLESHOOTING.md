@@ -207,6 +207,34 @@ composer dump-autoload
 php artisan optimize:clear
 ```
 
+### Error: "Required package 'laravel/sanctum' is not present in the lock file"
+
+**Error Message:**
+```
+Required package "laravel/sanctum" is not present in the lock file.
+This usually happens when composer files are incorrectly merged or the composer.json file is manually edited.
+```
+
+**Cause:**
+`composer.json` was manually edited (Sanctum moved from `require-dev` to `require`) but `composer.lock` was not updated.
+
+**Solution:**
+
+```bash
+# Update composer.lock file
+composer require laravel/sanctum:^4.2
+
+# Or update all dependencies
+composer update
+
+# Then commit both files
+git add composer.json composer.lock
+git commit -m "Move sanctum to require and update lock file"
+```
+
+**Prevention:**
+Always use `composer require` or `composer update` commands instead of manually editing `composer.json`.
+
 ### Error: "Class 'Laravel\Sanctum\Sanctum' not found"
 
 **Error Message:**
