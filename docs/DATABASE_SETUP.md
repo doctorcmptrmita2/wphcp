@@ -196,3 +196,4 @@ php artisan migrate:status
 - [EasyPanel Deploy Guide](./EASYPANEL_DEPLOY.md)
 - [Troubleshooting Guide](./EASYPANEL_TROUBLESHOOTING.md)
 
+

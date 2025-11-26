@@ -77,3 +77,4 @@ echo "2. Check storage/logs/laravel.log for any errors"
 echo "3. Test your application: curl http://localhost/up"
 echo "4. If issues persist, see docs/EASYPANEL_TROUBLESHOOTING.md"
 
+

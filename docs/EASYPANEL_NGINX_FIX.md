@@ -198,3 +198,4 @@ If issue persists, provide:
 - Directory listing: `ls -la /app/public/`
 - Nginx test: `nginx -t`
 
+

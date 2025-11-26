@@ -146,3 +146,4 @@ php artisan key:generate
 **Solution:**
 Most warnings are harmless. To reduce them, set optional variables to empty values or ignore them.
 
+

@@ -2,10 +2,12 @@
 
 ## Current Issues from Logs
 
-1. ❌ **Nginx root path is `/app` instead of `/app/public`**
-2. ❌ **APP_KEY is not set**
-3. ❌ **Database connection not configured**
-4. ⚠️ Many optional environment variables missing (warnings only)
+1. ❌ **Nginx root path is `/app` instead of `/app/public`** → **403 Forbidden**
+2. ❌ **APP_KEY is not set** → **500 Internal Server Error**
+3. ❌ **Database connection not configured** → **500 Internal Server Error**
+4. ⚠️ Many optional environment variables missing (warnings only - **HARMLESS**)
+
+> **Note:** Config files have been updated to reduce warnings. Most warnings are now suppressed.
 
 ## Step-by-Step Fix
 
