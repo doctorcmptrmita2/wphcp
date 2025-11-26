@@ -169,14 +169,26 @@ DB_PASSWORD=your_mysql_password
 3. Ensure MySQL service is running in EasyPanel
 4. Test connection: `php artisan migrate:status`
 
-### Step 2: Enable EasyPanel Globally
+### Step 2: Configure Nginx Root Path (IMPORTANT)
+
+**⚠️ CRITICAL: Set Root Directory to `/app/public`**
+
+In EasyPanel service settings:
+1. Go to your service configuration
+2. Find "Root Directory" or "Web Root" setting
+3. Set it to: `/app/public` (NOT `/app`)
+4. Save configuration
+
+**Why?** Laravel's entry point is `public/index.php`, not `index.php` in root.
+
+### Step 3: Enable EasyPanel Globally
 
 1. Edit your `.env` file
 2. Set `EASYPANEL_ENABLED=true`
 3. Configure `EASYPANEL_API_URL` and `EASYPANEL_API_TOKEN`
 4. Restart your Laravel application
 
-### Step 2: Configure Site Settings
+### Step 3: Configure Site Settings
 
 1. Navigate to Site Settings: `/sites/{id}/settings`
 2. Scroll to "EasyPanel Deploy" section
@@ -186,7 +198,7 @@ DB_PASSWORD=your_mysql_password
    - **Service Name**: Service name within the project
    - **Deploy Method**: Choose your deployment method
 
-### Step 3: Configure Deploy Method
+### Step 4: Configure Deploy Method
 
 #### For Git Deployment:
 1. Select "Git Repository" as deploy method
@@ -201,20 +213,20 @@ DB_PASSWORD=your_mysql_password
 1. Select "Docker Compose" as deploy method
 2. Configure additional settings as needed
 
-### Step 4: Set Resource Limits (Optional)
+### Step 5: Set Resource Limits (Optional)
 
 - **Port**: Container port number
 - **CPU Limit**: CPU allocation (e.g., `0.5`, `1`, `2`)
 - **Memory Limit**: Memory allocation (e.g., `512M`, `1G`)
 
-### Step 5: Add Environment Variables (Optional)
+### Step 6: Add Environment Variables (Optional)
 
 1. Click "Add Environment Variable"
 2. Enter key-value pairs
 3. Add multiple variables as needed
 4. Remove variables using the X button
 
-### Step 6: Save Settings
+### Step 7: Save Settings
 
 Click "Save EasyPanel Settings" to apply the configuration.
 

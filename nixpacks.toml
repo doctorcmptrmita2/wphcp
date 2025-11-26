@@ -1,0 +1,25 @@
+# Nixpacks configuration for Laravel
+# This ensures nginx points to /app/public directory
+
+[phases.setup]
+nixPkgs = ["php", "nginx", "libmysqlclient", "phpPackages.composer", "nodejs_18", "npm-9_x"]
+
+[phases.install]
+cmds = [
+  "mkdir -p /var/log/nginx && mkdir -p /var/cache/nginx",
+  "composer install --ignore-platform-reqs",
+  "npm ci"
+]
+
+[phases.build]
+cmds = [
+  "npm run build"
+]
+
+[start]
+cmd = "node /assets/scripts/prestart.mjs /assets/nginx.template.conf /nginx.conf && (php-fpm -y /assets/php-fpm.conf & nginx -c /nginx.conf)"
+
+# Environment variables that should be set
+[env]
+# These will be set from .env or EasyPanel environment variables
+

@@ -235,6 +235,88 @@ git commit -m "Move sanctum to require and update lock file"
 **Prevention:**
 Always use `composer require` or `composer update` commands instead of manually editing `composer.json`.
 
+### Error: "403 Forbidden - nginx"
+
+**Error Message:**
+```
+403 Forbidden
+nginx/1.26.2
+```
+
+**Cause:**
+Nginx cannot access the Laravel `public` directory or root path is misconfigured. In EasyPanel/Nixpacks, the default root is `/app` but Laravel requires `/app/public`.
+
+**Solutions:**
+
+#### Solution 1: Configure Root Path in EasyPanel
+
+1. **Go to EasyPanel Service Settings**
+2. **Find "Root Directory" or "Web Root" setting**
+3. **Set it to:** `/app/public` (NOT `/app`)
+4. **Save and redeploy**
+
+**⚠️ CRITICAL:** The error `directory index of "/app/" is forbidden` confirms nginx root is `/app`. It MUST be `/app/public`.
+
+#### Solution 2: Check File Permissions
+
+```bash
+# Set proper permissions
+chmod -R 755 /app/public
+chown -R www-data:www-data /app/public
+
+# Or if using different user
+chown -R $(whoami):$(whoami) /app/public
+```
+
+#### Solution 3: Verify index.php Exists
+
+```bash
+# Check if index.php exists
+ls -la /app/public/index.php
+
+# If missing, check if public directory exists
+ls -la /app/public/
+```
+
+#### Solution 4: Nginx Configuration (If Custom Config)
+
+If you have custom nginx configuration, ensure:
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+    
+    # IMPORTANT: Point to public directory
+    root /app/public;
+    index index.php index.html;
+    
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    
+    location ~ \.php$ {
+        fastcgi_pass 127.0.0.1:9000;  # Or your PHP-FPM socket
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+```
+
+#### Solution 5: Check EasyPanel Build Settings
+
+In EasyPanel service settings, verify:
+- **Root Directory:** `/app/public`
+- **Build Command:** Should include `composer install` and `npm run build`
+- **Start Command:** Should start PHP-FPM and Nginx
+
+#### Solution 6: URL Path Issue
+
+If URL includes `/public` (e.g., `https://domain.com/public/`):
+- This indicates root path is set to `/app` instead of `/app/public`
+- Fix: Set root to `/app/public` in EasyPanel settings
+
 ### Error: "Class 'Laravel\Sanctum\Sanctum' not found"
 
 **Error Message:**
