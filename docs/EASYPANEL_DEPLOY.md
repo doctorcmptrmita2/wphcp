@@ -6,9 +6,10 @@ WPHCP integrates with EasyPanel to enable automated deployment of WordPress site
 
 ## Prerequisites
 
-1. EasyPanel must be installed and running on your server
-2. EasyPanel API must be accessible
-3. API token must be configured in WPHCP
+1. **MySQL Database** - WPHCP requires MySQL (SQLite is NOT supported)
+2. EasyPanel must be installed and running on your server
+3. EasyPanel API must be accessible
+4. API token must be configured in WPHCP
 
 ## Configuration
 
@@ -150,7 +151,25 @@ $table->string('easypanel_memory_limit')->nullable();
 
 ## Usage
 
-### Step 1: Enable EasyPanel Globally
+### Step 1: Configure Database (REQUIRED)
+
+**⚠️ IMPORTANT: WPHCP REQUIRES MYSQL - DO NOT USE SQLITE**
+
+1. Edit your `.env` file
+2. Configure MySQL connection:
+```env
+DB_CONNECTION=mysql
+DB_HOST=your_mysql_host
+DB_PORT=3306
+DB_DATABASE=wphcp
+DB_USERNAME=your_mysql_user
+DB_PASSWORD=your_mysql_password
+```
+
+3. Ensure MySQL service is running in EasyPanel
+4. Test connection: `php artisan migrate:status`
+
+### Step 2: Enable EasyPanel Globally
 
 1. Edit your `.env` file
 2. Set `EASYPANEL_ENABLED=true`

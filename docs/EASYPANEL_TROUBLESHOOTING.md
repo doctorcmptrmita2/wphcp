@@ -126,7 +126,9 @@ php artisan view:cache
 
 #### 7. Check Database Connection
 
-Ensure database configuration in `.env` is correct:
+**⚠️ IMPORTANT: WPHCP REQUIRES MYSQL - DO NOT USE SQLITE**
+
+Ensure database configuration in `.env` is correct and uses **MySQL**:
 
 ```env
 DB_CONNECTION=mysql
@@ -137,10 +139,24 @@ DB_USERNAME=your_database_user
 DB_PASSWORD=your_database_password
 ```
 
-Test connection:
+**Common Error:**
+```
+Database file at path [/app/database/database.sqlite] does not exist
+```
+
+**Solution:**
+1. Set `DB_CONNECTION=mysql` in `.env` (NOT sqlite)
+2. Configure MySQL connection details
+3. Ensure MySQL service is running in EasyPanel
+4. Test connection:
 ```bash
 php artisan migrate:status
 ```
+
+**Why MySQL is Required:**
+- WPHCP creates separate databases for each WordPress site
+- Database management features require MySQL
+- SQLite does not support multiple databases per application
 
 #### 8. Verify Application Bootstrap
 
